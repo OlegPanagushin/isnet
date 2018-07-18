@@ -1,9 +1,11 @@
 export default class User {
-  constructor(idx, name, refUserIdx) {
-    this.idx = idx;
+  constructor(id, name, refUserId, linkId) {
+    this.id = id;
     this.name = name;
-    this.links = [];
+    this.links = [linkId];
+    this.orders = 0;
     this.balance = 0;
-    this.refUserIdx = refUserIdx;
+    this.refUserId = refUserId;
+    this.childrenIds = [];
   }
 }

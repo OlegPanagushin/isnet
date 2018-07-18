@@ -9,7 +9,7 @@ import rootReducer from "./reducers";
 import saga from "./sagas";
 import registerServiceWorker from "./registerServiceWorker";
 
-export const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const configureStore = preloadedState => {

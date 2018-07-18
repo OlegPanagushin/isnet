@@ -3,21 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
-  "@global": {
-    html: {
-      height: "100%"
-    },
-    body: {
-      height: "100%",
-      margin: 0,
-      padding: 0
-    },
-    "#root": {
-      height: "100%"
-    }
-  }
-};
+const styles = {};
 
 class Users extends React.Component {
   static propTypes = {
@@ -29,12 +15,18 @@ class Users extends React.Component {
     return (
       <div>
         <h2>Users</h2>
-        <div>{users.map(user => <div key={user.idx}>{user.name}</div>)}</div>
+        <div>
+          {users.map(user => (
+            <div key={user.id}>
+              {user.name} - {user.balance}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 }
 
-export default connect(state => ({ users: state.users }))(
+export default connect(state => ({ users: [...state.users] }))(
   withStyles(styles)(Users)
 );

@@ -2,22 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
+import Tree from "react-d3-tree";
 
-const styles = {
-  "@global": {
-    html: {
-      height: "100%"
-    },
-    body: {
-      height: "100%",
-      margin: 0,
-      padding: 0
-    },
-    "#root": {
-      height: "100%"
-    }
-  }
-};
+const styles = {};
+
+function linksToTree(links) {
+  if (!links.length) return [{ name: "0" }];
+
+  const linkToBranch = linkId => {
+    const link = links[linkId];
+    if (link)
+      return {
+        name: linkId.toString(),
+        children: link.childrenIds.map(id => linkToBranch(id))
+      };
+    else
+      return {
+        name: linkId.toString()
+      };
+  };
+
+  const result = linkToBranch(0);
+  return [result];
+}
 
 class Links extends React.Component {
   static propTypes = {
@@ -29,7 +36,9 @@ class Links extends React.Component {
     return (
       <div>
         <h2>Links</h2>
-        <div>{links.map(link => <div key={link.idx}>{link.idx}</div>)}</div>
+        <div style={{ width: "100vw", height: "500px" }}>
+          <Tree data={linksToTree(links)} orientation="vertical" />
+        </div>
       </div>
     );
   }

@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import Links from "./containers/Links";
 import Users from "./containers/Users";
-import { loadApp } from "../actions";
+import { loadApp, startSimulation, pauseSimulation } from "../actions";
 
 const styles = {
   "@global": {
@@ -25,8 +26,22 @@ const styles = {
 class App extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    loadApp: PropTypes.func.isRequired
+    loadApp: PropTypes.func.isRequired,
+    startSimulation: PropTypes.func.isRequired,
+    pauseSimulation: PropTypes.func.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    this.startSimulation = () => {
+      this.props.startSimulation();
+    };
+
+    this.pauseSimulation = () => {
+      this.props.pauseSimulation(true);
+    };
+  }
 
   componentDidMount() {
     this.props.loadApp();
@@ -34,15 +49,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Links />
-        <Users />
-      </React.Fragment>
+      <div>
+        <Button onClick={this.startSimulation}>Start</Button>
+        <Button onClick={this.pauseSimulation}>Pause</Button>
+        <div>
+          {/* <Users /> */}
+          <Links />
+        </div>
+      </div>
     );
   }
 }
 
 export default connect(
   null,
-  { loadApp }
+  { loadApp, startSimulation, pauseSimulation }
 )(withStyles(styles)(App));
